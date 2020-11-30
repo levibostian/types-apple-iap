@@ -1,6 +1,6 @@
 {
   "name": "types-apple-iap",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Typescript typings for Apple in-app purchases.",
   "scripts": {
     "docs": "npx typedoc ."
