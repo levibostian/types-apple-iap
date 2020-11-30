@@ -1,6 +1,6 @@
 {
   "mode": "file",
-  "out": "docs/api/",
+  "out": "docs/",
   "exclude": "./node_modules/**",
   "excludePrivate": true,
   "excludeNotExported": true,

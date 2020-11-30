@@ -22,6 +22,10 @@ const latestTransactions: AppleLatestReceiptTransaction[] = responseBody.latest_
 - [X] Version controlled. As Apple updates their response body, this project updates it's typings. Update the typings when your project is ready. 
 - [X] Deprecated fields from Apple are not present in this project. This helps you keep your project compliant with Apple's changes. 
 
+# Documentation
+
+[Here](https://levibostian.github.io/types-apple-iap/) you will find the full API reference for all of the typings in this repo.
+
 # Getting started 
 
 * Install typings: 
