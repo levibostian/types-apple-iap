@@ -1,19 +1,14 @@
-name: Test
+name: PR
 # only run on PRs and when push a commit on a branch that we don't deploy on. 
 on: 
-  push:
-    tags-ignore: # Don't run tests on tags as tags are made off of master branch. 
-      - '*'
   pull_request: # Run on all PRs. 
     branches:
       - '*'
 
 jobs:
-  test:
-    name: Test 
+  test_publish:
+    name: Npm publish dry run
     runs-on: ubuntu-latest
-    # skip if '[skip ci]' exists in commit message 
-    if: ${{ !contains(format('{0} {1}', github.event.head_commit.message, github.event.pull_request.title), '[skip ci]') }}
     steps:
       - uses: actions/checkout@v2
       - name: Read .nvmrc
@@ -26,10 +21,16 @@ jobs:
       - name: Install dependencies
         run: npm ci 
       - name: dry run npm publish 
-        run: echo ::set-output name=LIST::$(npm publish --dry-run)
+        # multi-line comment to send to PR: https://trstringer.com/github-actions-multiline-strings/
+        run: |
+          npm publish --dry-run 2> /tmp/dryrun.txt && DRY_RUN=$(cat /tmp/dryrun.txt)
+          echo "DRY_RUN<<EOF" >> $GITHUB_ENV
+          echo "$DRY_RUN" >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
         id: dryrun
       - name: Comment PR
         uses: thollander/actions-comment-pull-request@master
         with:
-          message: '${{ steps.dryrun.outputs.LIST }}'
+          message: |
+            '${{ env.DRY_RUN }}'
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
