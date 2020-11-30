@@ -1,0 +1,5 @@
+*.json
+*.yml
+docs/
+node_modules/
+.*rc

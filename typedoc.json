@@ -1,0 +1,10 @@
+{
+  "mode": "file",
+  "out": "docs/api/",
+  "exclude": "./node_modules/**",
+  "excludePrivate": true,
+  "excludeNotExported": true,
+  "excludeProtected": true,
+  "theme": "minimal",
+  "includeDeclarations": true  
+}
