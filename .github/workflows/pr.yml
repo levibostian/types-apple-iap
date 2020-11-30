@@ -1,0 +1,36 @@
+name: PR
+# only run on PRs and when push a commit on a branch that we don't deploy on. 
+on: 
+  pull_request: # Run on all PRs. 
+    branches:
+      - '*'
+
+jobs:
+  test_publish:
+    name: Npm publish dry run
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Read .nvmrc
+        run: echo ::set-output name=NODE_VERSION::$(cat .nvmrc)
+        id: nvm
+      - name: Setup node
+        uses: actions/setup-node@v2-beta
+        with:
+          node-version: '${{ steps.nvm.outputs.NODE_VERSION }}'
+      - name: Install dependencies
+        run: npm ci 
+      - name: dry run npm publish 
+        # multi-line comment to send to PR: https://trstringer.com/github-actions-multiline-strings/
+        run: |
+          npm publish --dry-run 2> /tmp/dryrun.txt && DRY_RUN=$(cat /tmp/dryrun.txt)
+          echo "DRY_RUN<<EOF" >> $GITHUB_ENV
+          echo "$DRY_RUN" >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
+        id: dryrun
+      - name: Comment PR
+        uses: thollander/actions-comment-pull-request@master
+        with:
+          message: |
+            '${{ env.DRY_RUN }}'
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
