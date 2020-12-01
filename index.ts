@@ -14,7 +14,7 @@ export interface AppleServerNotificationResponseBody {
   /**
    * Example: `2013-08-01 07:00:00 Etc/GMT`
    */
-  auto_renew_status_change_date: string 
+  auto_renew_status_change_date: string
   /**
    * Example: `1605232028848`
    */
