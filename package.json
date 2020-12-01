@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "description": "Typescript typings for Apple in-app purchases.",
   "scripts": {
-    "docs": "npx typedoc ."
+    "docs": "npx typedoc .",
+    "build": "rm -rf dist && npx tsc && find dist -type f -name '*.test.js*' -delete && cp package*.json dist/ && cp LICENSE dist/ && cp README.md dist/"
   },
   "repository": {
     "type": "git",
